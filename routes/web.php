@@ -14,6 +14,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/','BlogController@index')->name("blog.index");
 
+Route::resource('blogs', 'BlogController');
 
 });
 
