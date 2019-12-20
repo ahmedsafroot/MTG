@@ -20,11 +20,11 @@
 <a href="{{route('blogs.create')}}" style="marign:10px">Add New Post</a>
 
 @if(Session::has('message'))
-<p class="alert alert-info">{{ Session::get('message') }}</p>
+<p class="alert alert-info" style="margin-top: 30px">{{ Session::get('message') }}</p>
 @endif
 
 @if(Session::has('error'))
-<p class="alert alert-danger">{{ Session::get('error') }}</p>
+<p class="alert alert-danger" style="margin-top: 30px">{{ Session::get('error') }}</p>
 @endif
 
 </br></br>
@@ -51,7 +51,7 @@
                 <th>{{$post->body}}</th>
                 <td>{{$post->created_at}}</td> 
                 
-                  @if($post->user_id==$userid)
+                  @if($post->user_id==$user->id || $user->role=="admin")
                   <td>
                    <a href="{{route('blogs.edit',['id' =>$post->id])}}">Edit</a> 
                   </td>

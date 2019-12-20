@@ -12,9 +12,9 @@ class BlogController extends Controller
     //
     public function index()
     {
-        $userid = Auth::id();
+        $user = Auth::user();
         $posts=Post::all();
-        return view("blog.index",compact("posts","userid"));
+        return view("blog.index",compact("posts","user"));
     }
 
     public function create()
@@ -39,8 +39,9 @@ class BlogController extends Controller
 
     public function edit($id)
     {
+        $user = Auth::user();
         $post=Post::find($id);
-        if($post->user_id!=Auth::id())
+        if($post->user_id!=$user->id && $user->role!="admin")
         {
             Session::flash('error', "you aren't authorized to edit this post");
             return redirect()->route('blogs.index');   
@@ -56,8 +57,9 @@ class BlogController extends Controller
             'title' => 'required|max:255',
             'body' => 'required|max:255',
         ]);
+        $user = Auth::user();
         $post=Post::find($id);
-        if($post->user_id!=Auth::id())
+        if($post->user_id!=$user->id && $user->role!="admin")
         {
             Session::flash('error', "you aren't authorized to update this post");
             return redirect()->route('blogs.index');   
@@ -73,8 +75,9 @@ class BlogController extends Controller
     }
     public function destroy($id)
     {
+        $user = Auth::user();
         $post=Post::find($id);
-        if($post->user_id!=Auth::id())
+        if($post->user_id!=$user->id && $user->role!="admin")
         {
             Session::flash('error', "you aren't authorized to delete this post");
             return redirect()->route('blogs.index');   
